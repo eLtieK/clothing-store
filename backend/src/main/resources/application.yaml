@@ -1,0 +1,10 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /clothing-store
+
+spring:
+  datasource:
+    url: "jdbc:mysql://localhost:3306/clothing-store"
+    username: root
+    password: Kentom01

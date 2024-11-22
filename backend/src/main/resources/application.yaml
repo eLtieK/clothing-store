@@ -8,3 +8,7 @@ spring:
     url: "jdbc:mysql://localhost:3306/clothing-store"
     username: root
     password: Kentom01
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true

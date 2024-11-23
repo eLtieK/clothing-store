@@ -1,5 +1,8 @@
 package com.clothing_store.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -8,6 +11,27 @@ import java.util.Set;
 @Entity
 @Table(name = "employee")
 public class Employee {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String ID;
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "employeeID", referencedColumnName = "userID")
+    private User user;
+
+    private BigDecimal salary;
+    private String position;
+
+    @ManyToOne
+    @JoinColumn(name = "supervisorID", nullable = true)
+    @JsonBackReference
+    private Employee supervisor;
+
+    @OneToMany(mappedBy = "supervisor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private Set<Employee> subordinates;
+
     public String getID() {
         return ID;
     }
@@ -15,22 +39,6 @@ public class Employee {
     public void setID(String ID) {
         this.ID = ID;
     }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String ID;
-
-    @OneToOne
-    @JoinColumn(name = "employeeID", referencedColumnName = "userID")
-    private User user;
-    private BigDecimal salary;
-    private String position;
-
-    @ManyToOne
-    private Employee supervisor;
-
-    @OneToMany(mappedBy = "supervisor")
-    private Set<Employee> subordinates;
 
     public User getUser() {
         return user;

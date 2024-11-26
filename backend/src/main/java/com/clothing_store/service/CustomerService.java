@@ -30,6 +30,7 @@ public class CustomerService extends UserService{
 
         Customer customer = new Customer();
         customer.setUser(savedUser);
+        customer.setAddresses(request.getAddresses());
         customer.setRegistrationDate(LocalDate.parse(request.getRegistrationDate()));
 
         return customerRepository.save(customer);
@@ -45,6 +46,7 @@ public class CustomerService extends UserService{
     public Customer updateCustomer(String customerID, CustomerRequest request) {
         Customer customer = this.getCustomer(customerID);
         customer.setRegistrationDate(LocalDate.parse(request.getRegistrationDate()));
+        customer.setAddresses(request.getAddresses());
 
         User user = customer.getUser();
         user.setPassword(request.getPassword());

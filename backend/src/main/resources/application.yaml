@@ -5,9 +5,9 @@ server:
 
 spring:
   datasource:
-    url: "jdbc:mysql://localhost:3306/clothing-store"
-    username: root
-    password: Kentom01
+    url: "jdbc:mysql://sql12.freesqldatabase.com:3306/sql12747309"
+    username: sql12747309
+    password: wCUl8SehHW
   jpa:
     hibernate:
       ddl-auto: update

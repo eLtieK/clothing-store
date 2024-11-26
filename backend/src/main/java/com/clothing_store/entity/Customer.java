@@ -3,27 +3,40 @@ package com.clothing_store.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "customer")
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String ID;
+    private String Id;
 
     @OneToOne
     @MapsId
-    @JoinColumn(name = "customerID", referencedColumnName = "userID")
+    @JoinColumn(name = "customerId", referencedColumnName = "userId")
     private User user;
 
     private LocalDate registrationDate;
 
-    public String getID() {
-        return ID;
+    @ElementCollection
+    @CollectionTable(name = "customer_address", joinColumns = @JoinColumn(name = "customer_id")) @Column(name = "address")
+    private List<String> addresses;
+
+    public List<String> getAddresses() {
+        return addresses;
     }
 
-    public void setID(String ID) {
-        this.ID = ID;
+    public void setAddresses(List<String> addresses) {
+        this.addresses = addresses;
+    }
+
+    public String getId() {
+        return Id;
+    }
+
+    public void setId(String id) {
+        this.Id = id;
     }
     public User getUser() {
         return user;

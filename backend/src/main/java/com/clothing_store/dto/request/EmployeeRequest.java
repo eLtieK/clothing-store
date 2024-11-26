@@ -1,14 +1,12 @@
 package com.clothing_store.dto.request;
 
-import java.math.BigDecimal;
-
 public class EmployeeRequest {
     private String firstName;
     private String lastName;
     private String email;
     private String phoneNumber;
     private String password;
-    private BigDecimal salary;
+    private String salary;
     private String position;
     private String supervisorID;
 
@@ -52,11 +50,11 @@ public class EmployeeRequest {
         this.password = password;
     }
 
-    public BigDecimal getSalary() {
+    public String getSalary() {
         return salary;
     }
 
-    public void setSalary(BigDecimal salary) {
+    public void setSalary(String salary) {
         this.salary = salary;
     }
 

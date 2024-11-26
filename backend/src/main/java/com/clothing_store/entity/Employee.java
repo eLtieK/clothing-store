@@ -1,5 +1,7 @@
 package com.clothing_store.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -8,29 +10,34 @@ import java.util.Set;
 @Entity
 @Table(name = "employee")
 public class Employee {
-    public String getID() {
-        return ID;
-    }
-
-    public void setID(String ID) {
-        this.ID = ID;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String ID;
+    private String Id;
 
     @OneToOne
-    @JoinColumn(name = "employeeID", referencedColumnName = "userID")
+    @MapsId
+    @JoinColumn(name = "employeeId", referencedColumnName = "userId")
     private User user;
+
     private BigDecimal salary;
     private String position;
 
     @ManyToOne
+    @JoinColumn(name = "supervisorId", nullable = true)
+    @JsonBackReference
     private Employee supervisor;
 
-    @OneToMany(mappedBy = "supervisor")
+    @OneToMany(mappedBy = "supervisor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private Set<Employee> subordinates;
+
+    public String getId() {
+        return Id;
+    }
+
+    public void setId(String id) {
+        this.Id = id;
+    }
 
     public User getUser() {
         return user;

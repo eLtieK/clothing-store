@@ -3,6 +3,7 @@ package com.clothing_store.dto.request;
 import com.clothing_store.entity.User;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class CustomerRequest {
     private String firstName;
@@ -11,6 +12,15 @@ public class CustomerRequest {
     private String phoneNumber;
     private String password;
     private String registrationDate;
+    private List<String> addresses;
+
+    public List<String> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<String> addresses) {
+        this.addresses = addresses;
+    }
 
     public String getFirstName() {
         return firstName;

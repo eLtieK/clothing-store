@@ -1,7 +1,6 @@
 package com.clothing_store.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -13,18 +12,18 @@ import java.util.Set;
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String ID;
+    private String Id;
 
     @OneToOne
     @MapsId
-    @JoinColumn(name = "employeeID", referencedColumnName = "userID")
+    @JoinColumn(name = "employeeId", referencedColumnName = "userId")
     private User user;
 
     private BigDecimal salary;
     private String position;
 
     @ManyToOne
-    @JoinColumn(name = "supervisorID", nullable = true)
+    @JoinColumn(name = "supervisorId", nullable = true)
     @JsonBackReference
     private Employee supervisor;
 
@@ -32,12 +31,12 @@ public class Employee {
     @JsonManagedReference
     private Set<Employee> subordinates;
 
-    public String getID() {
-        return ID;
+    public String getId() {
+        return Id;
     }
 
-    public void setID(String ID) {
-        this.ID = ID;
+    public void setId(String id) {
+        this.Id = id;
     }
 
     public User getUser() {

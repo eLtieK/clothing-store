@@ -1,4 +1,4 @@
-package com.clothing_store.entity;
+package com.clothing_store.entity.user;
 
 import jakarta.persistence.*;
 

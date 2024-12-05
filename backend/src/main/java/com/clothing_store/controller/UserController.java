@@ -2,7 +2,7 @@ package com.clothing_store.controller;
 
 import com.clothing_store.dto.request.insert.UserRequest;
 import com.clothing_store.dto.request.update.UserUpdateRequest;
-import com.clothing_store.entity.User;
+import com.clothing_store.entity.user.User;
 import com.clothing_store.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +18,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
+    @CrossOrigin
     public ResponseEntity<String> createUser(@RequestBody UserRequest request) {
         try {
             userService.createUser(request);
@@ -32,6 +33,7 @@ public class UserController {
     }
 
     @GetMapping
+    @CrossOrigin
     public ResponseEntity<List<User>> getAllUsers() {
         try {
             List<User> users = userService.getAllUsers();
@@ -45,6 +47,7 @@ public class UserController {
     }
 
     @GetMapping("/{userID}")
+    @CrossOrigin
     public ResponseEntity<User> getUserById(@PathVariable String userID) {
         try {
             User user = userService.getUserById(userID);
@@ -59,6 +62,7 @@ public class UserController {
     }
 
     @PutMapping("/{userID}")
+    @CrossOrigin
     public ResponseEntity<String> updateUser(@PathVariable String userID,@RequestBody UserUpdateRequest request) {
         try {
             userService.updateUser(userID, request);
@@ -79,6 +83,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{userID}")
+    @CrossOrigin
     ResponseEntity<String> deleteUser(@PathVariable String userID) {
         try {
             userService.deleteUser(userID);

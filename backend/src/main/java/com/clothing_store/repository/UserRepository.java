@@ -1,6 +1,6 @@
 package com.clothing_store.repository;
 
-import com.clothing_store.entity.User;
+import com.clothing_store.entity.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;

@@ -2,7 +2,7 @@ package com.clothing_store.service;
 
 import com.clothing_store.dto.request.insert.EmployeeRequest;
 import com.clothing_store.dto.request.update.EmployeeUpdateRequest;
-import com.clothing_store.entity.Employee;
+import com.clothing_store.entity.user.Employee;
 import com.clothing_store.repository.EmployeeRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,26 +1,11 @@
-package com.clothing_store.dto.request;
+package com.clothing_store.dto.request.insert;
 
-import com.clothing_store.entity.User;
-
-import java.time.LocalDate;
-import java.util.List;
-
-public class CustomerRequest {
+public class UserRequest {
     private String firstName;
     private String lastName;
     private String email;
     private String phoneNumber;
     private String password;
-    private String registrationDate;
-    private List<String> addresses;
-
-    public List<String> getAddresses() {
-        return addresses;
-    }
-
-    public void setAddresses(List<String> addresses) {
-        this.addresses = addresses;
-    }
 
     public String getFirstName() {
         return firstName;
@@ -60,13 +45,5 @@ public class CustomerRequest {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getRegistrationDate() {
-        return registrationDate;
-    }
-
-    public void setRegistrationDate(String registrationDate) {
-        this.registrationDate = registrationDate;
     }
 }

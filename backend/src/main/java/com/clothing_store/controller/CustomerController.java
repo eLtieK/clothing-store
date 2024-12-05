@@ -1,11 +1,11 @@
 package com.clothing_store.controller;
 
-import com.clothing_store.dto.request.CustomerRequest;
-import com.clothing_store.dto.request.UserRequest;
+import com.clothing_store.dto.request.insert.CustomerRequest;
 import com.clothing_store.entity.Customer;
-import com.clothing_store.entity.User;
 import com.clothing_store.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,26 +17,43 @@ public class CustomerController {
     private CustomerService customerService;
 
     @PostMapping
-    Customer createCustomer(@RequestBody CustomerRequest request) {
-        return customerService.createCustomer(request);
+    public ResponseEntity<String> createCustomer(@RequestBody CustomerRequest request) {
+        try {
+            // Gọi service để thêm khách hàng và người dùng
+            customerService.createCustomer(request);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Customer created successfully!");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating customer: " + e.getMessage());
+        }
     }
 
     @GetMapping
-    List<Customer> getCustomers() { return customerService.getCustomers();}
+    ResponseEntity<List<Customer>> getCustomers() {
+        List<Customer> customers = customerService.getCustomers();
+        return ResponseEntity.status(HttpStatus.OK).body(customers);
+    }
 
     @GetMapping("/{customerID}")
-    Customer getCustomer(@PathVariable("customerID") String customerID) {
-        return customerService.getCustomer(customerID);
+    ResponseEntity<Customer> getCustomer(@PathVariable("customerID") String customerID) {
+        Customer customer = customerService.getCustomer(customerID);
+        return ResponseEntity.status(HttpStatus.OK).body(customer);
     }
 
     @PutMapping("/{customerID}")
-    Customer updateUser(@PathVariable String customerID, @RequestBody CustomerRequest request) {
-        return customerService.updateCustomer(customerID, request);
+    ResponseEntity<String> updateUser(@PathVariable String customerID, @RequestBody CustomerRequest request) {
+        customerService.updateCustomer(customerID, request);
+        return ResponseEntity.status(HttpStatus.OK).body("Customer updated successfully!");
     }
 
     @DeleteMapping("/{customerID}")
-    String deleteCustomer(@PathVariable String customerID) {
-        customerService.deleteCustomer(customerID);
-        return "Customer " + customerID + " has been deleted";
+    ResponseEntity<String> deleteCustomer(@PathVariable String customerID) {
+        try {
+            customerService.deleteCustomer(customerID);
+            return ResponseEntity.status(HttpStatus.OK).body("Customer deleted successfully!");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error: " + e.getMessage());
+        }
     }
 }

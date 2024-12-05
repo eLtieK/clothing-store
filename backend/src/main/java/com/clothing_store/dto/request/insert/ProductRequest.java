@@ -1,6 +1,5 @@
-package com.clothing_store.dto.request;
+package com.clothing_store.dto.request.insert;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public class ProductRequest {

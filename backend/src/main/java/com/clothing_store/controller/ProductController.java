@@ -1,11 +1,8 @@
 package com.clothing_store.controller;
 
-import com.clothing_store.dto.request.ProductRequest;
-import com.clothing_store.dto.request.UserRequest;
+import com.clothing_store.dto.request.insert.ProductRequest;
 import com.clothing_store.entity.Product;
-import com.clothing_store.entity.User;
 import com.clothing_store.service.ProductService;
-import com.clothing_store.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

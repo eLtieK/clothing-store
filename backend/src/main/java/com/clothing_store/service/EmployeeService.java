@@ -1,13 +1,13 @@
 package com.clothing_store.service;
 
-import com.clothing_store.dto.request.EmployeeRequest;
+import com.clothing_store.dto.request.insert.EmployeeRequest;
+import com.clothing_store.dto.request.update.EmployeeUpdateRequest;
 import com.clothing_store.entity.Employee;
-import com.clothing_store.entity.User;
 import com.clothing_store.repository.EmployeeRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -15,42 +15,42 @@ public class EmployeeService extends UserService{
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    public Employee createEmployee(EmployeeRequest request) {
-        User user = new User();
+    @Transactional
+    public void createEmployee(EmployeeRequest request) {
+        String userId = userRepository.insertUser(
+                request.getFirstName(),
+                request.getLastName(),
+                request.getPhoneNumber(),
+                request.getPassword(),
+                request.getEmail()
+        );
 
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
-        user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
-        user.setPhoneNumber(request.getPhoneNumber());
-
-        User savedUser = this.createUser(user);
-
-        Employee employee = new Employee();
-        employee.setUser(savedUser);
-        employee.setPosition(request.getPosition());
-        employee.setSalary(new BigDecimal(request.getSalary()));
-
-        System.out.println(request);
-        if (request.getSupervisorID() != null) {
-
-            Employee supervisor = employeeRepository.findById(request.getSupervisorID()).orElse(null);
-            employee.setSupervisor(supervisor);
-        } else {
-            employee.setSupervisor(null); // Explicitly setting supervisor to null
-        }
-
-        return employeeRepository.save(employee);
+        employeeRepository.insertEmployee(
+                userId,
+                request.getPosition(),
+                request.getSalary(),
+                request.getSupervisorID()
+        );
     }
 
-    public List<Employee> getEmployees() {return employeeRepository.findAll();}
+    @Transactional
+    public void updateEmployee(String userId, EmployeeUpdateRequest request) {
+        employeeRepository.updateEmployee(
+                userId,
+                request.getPosition(),
+                request.getSalary()
+        );
+    }
+    @Transactional
+    public List<Employee> getEmployees() {return employeeRepository.getAllEmployees();}
 
+    @Transactional
     public Employee getEmployee(String employeeID) {
-        return employeeRepository.findById(employeeID)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        return employeeRepository.getEmployeeById(employeeID);
     }
 
+    @Transactional
     public void deleteEmployee(String employeeID) {
-        employeeRepository.deleteById(employeeID);
+        employeeRepository.deleteEmployee(employeeID);
     }
 }

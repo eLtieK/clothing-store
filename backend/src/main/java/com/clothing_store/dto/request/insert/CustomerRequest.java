@@ -1,14 +1,23 @@
-package com.clothing_store.dto.request;
+package com.clothing_store.dto.request.insert;
 
-public class EmployeeRequest {
+import java.util.List;
+
+public class CustomerRequest {
     private String firstName;
     private String lastName;
     private String email;
     private String phoneNumber;
     private String password;
-    private String salary;
-    private String position;
-    private String supervisorID;
+    private String registrationDate;
+    private List<String> addresses;
+
+    public List<String> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<String> addresses) {
+        this.addresses = addresses;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -50,27 +59,11 @@ public class EmployeeRequest {
         this.password = password;
     }
 
-    public String getSalary() {
-        return salary;
+    public String getRegistrationDate() {
+        return registrationDate;
     }
 
-    public void setSalary(String salary) {
-        this.salary = salary;
-    }
-
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
-    }
-
-    public String getSupervisorID() {
-        return supervisorID;
-    }
-
-    public void setSupervisorID(String supervisorID) {
-        this.supervisorID = supervisorID;
+    public void setRegistrationDate(String registrationDate) {
+        this.registrationDate = registrationDate;
     }
 }

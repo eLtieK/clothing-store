@@ -1,15 +1,11 @@
 package com.clothing_store.service;
 
-import com.clothing_store.dto.request.CustomerRequest;
-import com.clothing_store.dto.request.ProductRequest;
-import com.clothing_store.entity.Customer;
+import com.clothing_store.dto.request.insert.ProductRequest;
 import com.clothing_store.entity.Product;
-import com.clothing_store.entity.User;
 import com.clothing_store.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 
 @Service

@@ -1,6 +1,7 @@
 package com.clothing_store.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -24,11 +25,10 @@ public class Employee {
 
     @ManyToOne
     @JoinColumn(name = "supervisorId", nullable = true)
-    @JsonBackReference
     private Employee supervisor;
 
     @OneToMany(mappedBy = "supervisor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonIgnore
     private Set<Employee> subordinates;
 
     public String getId() {

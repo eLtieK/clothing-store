@@ -1,10 +1,13 @@
 package com.clothing_store.controller;
 
-import com.clothing_store.dto.request.UserRequest;
+import com.clothing_store.dto.request.insert.UserRequest;
+import com.clothing_store.dto.request.update.UserUpdateRequest;
 import com.clothing_store.entity.User;
 import com.clothing_store.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
@@ -15,28 +18,75 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    User createUser(@RequestBody UserRequest request) {
-        return userService.createUser(request);
+    public ResponseEntity<String> createUser(@RequestBody UserRequest request) {
+        try {
+            userService.createUser(request);
+            return ResponseEntity.status(HttpStatus.CREATED).body("User created successfully!");
+        } catch (IllegalArgumentException e) {
+            // Trả về lỗi 400 Bad Request
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            // Trả về lỗi 500 Internal Server Error
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error: " + e.getMessage());
+        }
     }
 
     @GetMapping
-    List<User> getUsers() {
-        return userService.getUsers();
+    public ResponseEntity<List<User>> getAllUsers() {
+        try {
+            List<User> users = userService.getAllUsers();
+            if (users.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(users);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
     @GetMapping("/{userID}")
-    User getUser(@PathVariable("userID") String userID) {
-        return userService.getUser(userID);
+    public ResponseEntity<User> getUserById(@PathVariable String userID) {
+        try {
+            User user = userService.getUserById(userID);
+            if (user != null) {
+                return ResponseEntity.status(HttpStatus.OK).body(user);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
     @PutMapping("/{userID}")
-    User updateUser(@PathVariable String userID, @RequestBody UserRequest request) {
-        return userService.updateUser(userID, request);
+    public ResponseEntity<String> updateUser(@PathVariable String userID,@RequestBody UserUpdateRequest request) {
+        try {
+            userService.updateUser(userID, request);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body("User updated successfully!");
+        } catch (IllegalArgumentException e) {
+            // Trả về lỗi 400 Bad Request
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
+        } catch (Exception e) {
+            // Trả về lỗi 500 Internal Server Error
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Unexpected error: " + e.getMessage());
+        }
     }
 
     @DeleteMapping("/{userID}")
-    String deleteUser(@PathVariable String userID) {
-        userService.deleteUser(userID);
-        return "User " + userID + " has been deleted";
+    ResponseEntity<String> deleteUser(@PathVariable String userID) {
+        try {
+            userService.deleteUser(userID);
+            return ResponseEntity.status(HttpStatus.OK).body("User deleted successfully!");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error: " + e.getMessage());
+        }
     }
 }

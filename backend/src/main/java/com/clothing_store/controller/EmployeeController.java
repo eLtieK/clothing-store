@@ -1,12 +1,12 @@
 package com.clothing_store.controller;
 
-import com.clothing_store.dto.request.EmployeeRequest;
-import com.clothing_store.dto.request.UserRequest;
+import com.clothing_store.dto.request.insert.EmployeeRequest;
+import com.clothing_store.dto.request.update.EmployeeUpdateRequest;
 import com.clothing_store.entity.Employee;
-import com.clothing_store.entity.User;
 import com.clothing_store.service.EmployeeService;
-import com.clothing_store.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,28 +18,34 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @PostMapping
-    Employee createEmployee(@RequestBody EmployeeRequest request) {
-        return employeeService.createEmployee(request);
+    ResponseEntity<String> createEmployee(@RequestBody EmployeeRequest request) {
+        employeeService.createEmployee(request);
+        return ResponseEntity.status(HttpStatus.OK).body("Employee updated successfully!");
     }
 
     @GetMapping
-    List<Employee> getEmployees() {
-        return employeeService.getEmployees();
+    ResponseEntity<List<Employee>> getEmployees() {
+        List<Employee> employees =  employeeService.getEmployees();
+        return ResponseEntity.status(HttpStatus.OK).body(employees);
     }
 
     @GetMapping("/{employeeID}")
-    Employee getEmployee(@PathVariable("employeeID") String employeeID) {
-        return employeeService.getEmployee(employeeID);
+    ResponseEntity<Employee> getEmployee(@PathVariable("employeeID") String employeeID) {
+        Employee employee = employeeService.getEmployee(employeeID);
+        return ResponseEntity.status(HttpStatus.OK).body(employee);
     }
 
-//    @PutMapping("/{employeeID}")
-//    Employee updateEmployee(@PathVariable String employeeID, @RequestBody EmployeeRequest request) {
-//        return employeeService.updateEmployee(employeeID, request);
-//    }
+    @PutMapping("/{employeeID}")
+    ResponseEntity<String> updateEmployee(@PathVariable String employeeID, @RequestBody EmployeeUpdateRequest request) {
+        employeeService.updateEmployee(employeeID, request);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body("Employee updated successfully!");
+    }
 
     @DeleteMapping("/{employeeID}")
-    String deleteEmployee(@PathVariable String employeeID) {
+    ResponseEntity<String> deleteEmployee(@PathVariable String employeeID) {
         employeeService.deleteEmployee(employeeID);
-        return "Employee " + employeeID + " has been deleted";
+        return ResponseEntity.status(HttpStatus.OK).body("Employee deleted successfully!");
     }
 }

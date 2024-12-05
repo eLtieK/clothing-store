@@ -10,7 +10,7 @@ import java.util.List;
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String Id;
+    private String customerId;
 
     @OneToOne
     @MapsId
@@ -32,11 +32,11 @@ public class Customer {
     }
 
     public String getId() {
-        return Id;
+        return customerId;
     }
 
     public void setId(String id) {
-        this.Id = id;
+        this.customerId = id;
     }
     public User getUser() {
         return user;

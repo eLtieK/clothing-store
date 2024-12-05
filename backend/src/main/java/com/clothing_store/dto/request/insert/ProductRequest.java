@@ -1,11 +1,12 @@
 package com.clothing_store.dto.request.insert;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class ProductRequest {
     private String name;
     private String description;
-    private String price;
+    private BigDecimal price;
     private List<String> colors;
     private List<String> sizes;
 
@@ -25,11 +26,11 @@ public class ProductRequest {
         this.description = description;
     }
 
-    public String getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

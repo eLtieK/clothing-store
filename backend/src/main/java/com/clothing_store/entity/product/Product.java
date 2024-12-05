@@ -1,29 +1,18 @@
-package com.clothing_store.entity;
+package com.clothing_store.entity.product;
 
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Entity
+@Table(name = "product")
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private String productId;
 
     private String name;
     private String description;
     private BigDecimal price;
-
-    @ElementCollection
-    @CollectionTable(name = "product_color", joinColumns = @JoinColumn(name = "product_id"))
-    @Column(name = "color")
-    private List<String> colors;
-
-    @ElementCollection
-    @CollectionTable(name = "product_size", joinColumns = @JoinColumn(name = "product_id"))
-    @Column(name = "size")
-    private List<String> sizes;
 
     public String getProductId() {
         return productId;
@@ -55,21 +44,5 @@ public class Product {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
-    }
-
-    public List<String> getColors() {
-        return colors;
-    }
-
-    public void setColors(List<String> colors) {
-        this.colors = colors;
-    }
-
-    public List<String> getSizes() {
-        return sizes;
-    }
-
-    public void setSizes(List<String> sizes) {
-        this.sizes = sizes;
     }
 }

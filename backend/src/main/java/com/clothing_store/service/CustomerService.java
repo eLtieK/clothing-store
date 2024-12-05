@@ -1,7 +1,7 @@
 package com.clothing_store.service;
 
 import com.clothing_store.dto.request.insert.CustomerRequest;
-import com.clothing_store.entity.Customer;
+import com.clothing_store.entity.user.Customer;
 import com.clothing_store.repository.CustomerRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

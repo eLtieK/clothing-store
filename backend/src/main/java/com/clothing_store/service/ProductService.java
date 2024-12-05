@@ -1,62 +1,83 @@
 package com.clothing_store.service;
 
 import com.clothing_store.dto.request.insert.ProductRequest;
-import com.clothing_store.entity.Product;
+import com.clothing_store.dto.request.update.ProductUpdateRequest;
+import com.clothing_store.dto.response.ProductResponse;
+import com.clothing_store.entity.product.Product;
 import com.clothing_store.repository.ProductRepository;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ProductService {
+    @Autowired
     private ProductRepository productRepository;
 
-    public Product createProduct(ProductRequest request) {
-        Product product = new Product();
+    @Transactional
+    public void createProduct(ProductRequest request) {
+        String productId = productRepository.insertProduct(
+                request.getDescription(),
+                request.getName(),
+                request.getPrice()
+        );
 
-        product.setName(request.getName());
-        product.setDescription(request.getDescription());
-        product.setPrice(new BigDecimal(request.getPrice()));
-        product.setColors(request.getColors());
-        product.setSizes(request.getSizes());
+        for (String color : request.getColors()) {
+            productRepository.insertProductColor(
+                    productId,
+                    color
+            );
+        }
 
-        return productRepository.save(product);
+        for (String size : request.getSizes()) {
+            productRepository.insertProductSize(
+                    productId,
+                    size
+            );
+        }
     }
 
-    public List<Product> getProducts() {
-        return productRepository.findAll();
+    @Transactional
+    public List<ProductResponse> getProducts() {
+        List<Object> raw_list = productRepository.getAllProducts();
+        List<ProductResponse> product_list = new ArrayList<>();
+
+        for (Object raw_data : raw_list) {
+            ProductResponse product_data = ProductResponse.convertToProductResponse(raw_data);
+            product_list.add(product_data);
+        }
+
+        return product_list;
     }
 
-    public Product getProduct(String productId) {
-        return productRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+    @Transactional
+    public List<ProductResponse> getProduct(String productId) {
+        List<Object> raw_list = productRepository.getProductById(productId);
+        List<ProductResponse> product_list = new ArrayList<>();
+
+        for (Object raw_data : raw_list) {
+            ProductResponse product_data = ProductResponse.convertToProductResponse(raw_data);
+            product_list.add(product_data);
+        }
+
+        return product_list;
     }
 
-    public Product updateProduct(String productId, ProductRequest request) {
-        Product product = this.getProduct(productId);
-
-        if (request.getName() != null) {
-            product.setName(request.getName());
-        }
-        if (request.getDescription() != null) {
-            product.setDescription(request.getDescription());
-        }
-        if (request.getPrice() != null) {
-            product.setPrice(new BigDecimal(request.getPrice()));
-        }
-        if (request.getColors() != null) {
-            product.setColors(request.getColors());
-        }
-        if (request.getSizes() != null) {
-            product.setSizes(request.getSizes());
-        }
-
-        return productRepository.save(product);
+    @Transactional
+    public void updateProduct(String productId, ProductUpdateRequest request) {
+        productRepository.updateProduct(
+                productId,
+                request.getPrice()
+        );
     }
 
-
+    @Transactional
     public void deleteProduct(String productId) {
-        productRepository.deleteById(productId);
+        productRepository.deleteProduct(productId);
     }
 }

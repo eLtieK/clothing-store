@@ -2,8 +2,9 @@ package com.clothing_store.controller;
 
 import com.clothing_store.dto.request.insert.ProductRequest;
 import com.clothing_store.dto.request.update.ProductUpdateRequest;
-import com.clothing_store.dto.response.ProductResponse;
-import com.clothing_store.entity.product.Product;
+import com.clothing_store.dto.response.ProductColorResponse;
+import com.clothing_store.dto.response.ProductSizeResponse;
+import com.clothing_store.entity.Product;
 import com.clothing_store.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,14 +28,38 @@ public class ProductController {
 
     @GetMapping
     @CrossOrigin
-    ResponseEntity<List<ProductResponse>> getProducts() {
+    ResponseEntity<List<Product>> getProducts() {
         return ResponseEntity.status(HttpStatus.OK).body(productService.getProducts());
     }
 
     @GetMapping("/{productId}")
     @CrossOrigin
-    ResponseEntity<List<ProductResponse>> getProduct(@PathVariable("productId") String productId) {
+    ResponseEntity<Product> getProduct(@PathVariable("productId") String productId) {
         return ResponseEntity.status(HttpStatus.OK).body(productService.getProduct(productId));
+    }
+
+    @GetMapping("/colors")
+    @CrossOrigin
+    ResponseEntity<List<ProductColorResponse>> getProductColors() {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.getProductColors());
+    }
+
+    @GetMapping("/colors/{productId}")
+    @CrossOrigin
+    ResponseEntity<List<ProductColorResponse>> getProductColor(@PathVariable("productId") String productId) {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.getProductColor(productId));
+    }
+
+    @GetMapping("/sizes")
+    @CrossOrigin
+    ResponseEntity<List<ProductSizeResponse>> getProductSizes() {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.getProductSizes());
+    }
+
+    @GetMapping("/sizes/{productId}")
+    @CrossOrigin
+    ResponseEntity<List<ProductSizeResponse>> getProductSize(@PathVariable("productId") String productId) {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.getProductSize(productId));
     }
 
     @PutMapping("/{productId}")

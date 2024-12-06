@@ -1,9 +1,8 @@
 package com.clothing_store.repository;
 
-import com.clothing_store.dto.response.ProductResponse;
-import com.clothing_store.entity.product.Product;
-import com.clothing_store.entity.user.User;
+import com.clothing_store.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -32,11 +31,23 @@ public interface ProductRepository extends JpaRepository<Product, String> {
     void insertProductSize(@Param("p_product_id") String product_id,
                            @Param("p_size") String size);
 
-    @Procedure(procedureName = "GetAllProducts")
-    List<Object> getAllProducts();
+    @Query(value = "SELECT * FROM product", nativeQuery = true)
+    List<Product> getAllProducts();
 
-    @Procedure(procedureName = "GetProductById")
-    List<Object> getProductById(@Param("p_product_id") String product_id);
+    @Query(value = "SELECT * FROM product WHERE product_id = :productId", nativeQuery = true)
+    Product getProductById(@Param("productId") String productId);
+
+    @Query(value = "SELECT * FROM product_color", nativeQuery = true)
+    List<Object> getAllProductColors();
+
+    @Query(value = "SELECT * FROM product_color WHERE product_id = :productId", nativeQuery = true)
+    List<Object> getProductColorById(@Param("productId") String productId);
+
+    @Query(value = "SELECT * FROM product_size", nativeQuery = true)
+    List<Object> getAllProductSizes();
+
+    @Query(value = "SELECT * FROM product_size WHERE product_id = :productId", nativeQuery = true)
+    List<Object> getProductSizeById(@Param("productId") String productId);
 
     @Procedure(procedureName = "DeleteProduct")
     void deleteProduct(@Param("p_product_id") String product_id);

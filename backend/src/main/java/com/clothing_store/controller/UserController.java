@@ -1,5 +1,6 @@
 package com.clothing_store.controller;
 
+import com.clothing_store.dto.request.Login;
 import com.clothing_store.dto.request.insert.UserRequest;
 import com.clothing_store.dto.request.update.UserUpdateRequest;
 import com.clothing_store.entity.user.User;
@@ -16,6 +17,18 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @PostMapping("/login")
+    @CrossOrigin
+    public ResponseEntity<String> login(@RequestBody Login login) {
+        boolean isUserValid = userService.login(login.getEmail(), login.getPassword());
+        if (isUserValid) {
+            return ResponseEntity.ok("Login successful!");
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password.");
+        }
+    }
+
 
     @PostMapping
     @CrossOrigin

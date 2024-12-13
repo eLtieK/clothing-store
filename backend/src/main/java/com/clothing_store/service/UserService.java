@@ -20,6 +20,11 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public boolean login(String email, String password) {
+        Boolean userExists = userRepository.checkUserExists(email, password);
+        return userExists != null && userExists; // Trả về true nếu user tồn tại
+    }
+
     @Transactional
     public void createUser(UserRequest request) {
         try {
